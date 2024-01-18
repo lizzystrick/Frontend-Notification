@@ -1,0 +1,54 @@
+
+name: 2de frontend Docker CI
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  packages: write 
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.13' # or the Node.js version your project uses
+
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: NotificationFrontend
+
+    - name: Build Angular Project
+      run: ng build 
+      working-directory: NotificationFrontend
+
+    - name: Log in to the GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.ghcr_username }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        file: ./NotificationFrontend/Dockerfile
+        context: .
+        push: true
+        tags: ghcr.io/lizzystrick/frontend-notification:latest # Replace with your path in GHCR
+
+    # Optionally, add more steps for testing, linting, etc.
