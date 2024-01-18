@@ -4,8 +4,10 @@ import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NotificationComponent } from './notification/notification.component';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutesModule } from './app.routes';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -14,8 +16,10 @@ import { AppRoutesModule } from './app.routes';
 
   ],
   imports: [
+    ToastrModule.forRoot(),
     BrowserModule,
-    AppRoutesModule
+    AppRoutesModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
