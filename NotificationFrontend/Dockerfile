@@ -1,8 +1,8 @@
 FROM node:18-alpine AS build
 WORKDIR /app
-COPY ./FlixnetFrontend/package*.json ./
+COPY ./NotificationFrontend/package*.json ./
 RUN npm ci
-COPY ./FlixnetFrontend .
+COPY ./NotificationFrontend .
 RUN npm run build -- --output-path=dist
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
