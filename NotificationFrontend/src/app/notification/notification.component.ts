@@ -26,10 +26,9 @@ export class NotificationComponent implements OnInit{
 
 private handleNotification = (data: any) => {
   console.log('Received notification:', data);
-  // You might want to fetch more movie details here or just display the IDs
+
   this.toastr.success(`Movie ${data.notification.movieId} was liked by user ${data.notification.userId}`);
-  // Trigger change detection if needed, e.g.:
-  // this.changeDetectorRefs.detectChanges();
+
 
 }
 
